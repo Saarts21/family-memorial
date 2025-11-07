@@ -39,7 +39,6 @@ const familyData = {
 const svg = d3.select("#family-tree");
 const width = document.getElementById("tree-container").clientWidth;
 const height = 600;
-
 const g = svg
   .attr("viewBox", [0, 0, width, height])
   .append("g");
@@ -72,18 +71,20 @@ const node = g
   .attr("class", "node")
   .attr("transform", d => `translate(${d.x + width / 2},${d.y + 60})`)
   .style("cursor", "pointer")
-  .on("click", (_, d) => showPerson(d.data));
+  .on("click", (_, d) => showPerson(d));
 
 // Draw node background
 node
   .append("rect")
+  .attr("class", "node-rect")
   .attr("x", -80)
   .attr("y", -55)
   .attr("width", 160)
   .attr("height", 110)
   .attr("rx", 12)
   .attr("fill", "white")
-  .attr("stroke", "#ddd");
+  .attr("stroke", "#ddd")
+  .attr("stroke-width", 2);
 
 // Image
 node
@@ -108,16 +109,45 @@ const zoom = d3.zoom().scaleExtent([0.3, 2]).on("zoom", e => g.attr("transform",
 svg.call(zoom);
 svg.on("dblclick", () => svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity));
 
-// Person details box
-function showPerson(person) {
+// Keep track of currently selected node
+let selectedNode = null;
+
+// Person details box with highlighting and smooth scroll
+function showPerson(nodeData) {
+  // Remove highlight from previously selected node
+  if (selectedNode) {
+    d3.select(selectedNode)
+      .select(".node-rect")
+      .attr("stroke", "#ddd")
+      .attr("stroke-width", 2);
+  }
+
+  // Highlight the newly selected node
+  const currentNode = d3.selectAll(".node")
+    .filter(d => d === nodeData)
+    .node();
+  
+  if (currentNode) {
+    d3.select(currentNode)
+      .select(".node-rect")
+      .attr("stroke", "#2563eb")
+      .attr("stroke-width", 4);
+    
+    selectedNode = currentNode;
+  }
+
+  // Update the details box
   const box = document.getElementById("person-details");
   box.innerHTML = `
     <div style="display:flex;gap:1rem;align-items:center;">
-      <img src="${person.img}" width="100" height="100" style="border-radius:12px;object-fit:cover;">
+      <img src="${nodeData.data.img}" width="100" height="100" style="border-radius:12px;object-fit:cover;">
       <div>
-        <h2>${person.name}</h2>
-        <p>${person.info}</p>
+        <h2>${nodeData.data.name}</h2>
+        <p>${nodeData.data.info}</p>
       </div>
     </div>
   `;
+
+  // Smooth scroll to the details box
+  box.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
