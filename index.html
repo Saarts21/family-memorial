@@ -1,102 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <!-- Scale to mobile screens -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Good Place</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: Georgia;
-            margin: 10px;
-            padding: 0;
-            text-align: center;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 10%), url('background.jpg');
-            
-        }
-        h1 {
-            margin-top: 90px;
-            font-size: 26px;
-            text-align: center;
-            font-family: Georgia;
-        }
-        .button-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
-        .button-container button {
-            padding: 10px 15px;
-            font-size: 16px;
-            color: white;
-            font-weight: bold;
-            font-family: Georgia;
-            text-transform: uppercase;
-            background-color: #0d9b7f;
-            border: none;
-            border-radius: 5px; /* rounded corners */
-            cursor: pointer; /* change cursor to pointer */
-        }
-        .story-container {
-            margin-top: 2px;
-            margin-left: 0;
-            margin-right: 0;
-            margin-bottom: 0;
-            width: 100%;
-            max-width: 100%;
-            padding: 15px;
-        }
-        .story-text {
-            border: 1px solid #ccc;
-            padding: 15px;
-            font-size: 18px;
-            line-height: 1.5; /* margin between lines */
-            background-color: rgba(249, 249, 249, 0.5); /* 50% transparent background */
-        }
-        .story-image {
-            margin-top: 10px;
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Memorial Page</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-    <!-- Button with Link -->
-    <div class="button-container">
-        <a href="#" target="_blank"><button>Back to map</button></a>
-    </div>
-    
-    <!-- Title -->
-    <h1>This is a Good Place for Weekend Chill</h1>
-    
-    <!-- Text Box -->
-    <div class="story-container">
-        <p class="story-text">I discovered this corner during my first year of the bachelor's degree. The same time I met my partner. One Saturday we wanted to have lunch outside, so we made sandwiches and walked to the upper path of Lockey Park. We arrived at a bench built of stones, right in the middle of a grove without any trace of civilization and we ate. Soon we were bitten all over by mosquitoes, but I remember the experience as very romantic and peaceful.
-            I lived in the nearby Senate dormitory, building 159, exactly a minute and a half away from this corner. The dormitory was also special for me because my parents lived in the same building when my father was a student at the Technion, and my mother was pregnant with me. 23 years later I moved into the same building, two floors above, closing a circle.
-        </p>
-    </div>
+  <header>
+    <h1>Family Memorial Page</h1>
+    <p>Interactive family tree — click a person to read their story.</p>
+  </header>
 
-    <!-- Text Box -->
-    <div class="story-container">
-        <p class="story-text" dir="rtl">
-            את הפינה הזו גיליתי במהלך השנה הראשונה שלי לתואר הראשון. באותו זמן פגשתי את בן זוגי. באחת השבתות רצינו לאכול ארוחת צהריים בחוץ, אז הכנו סנדוויצ'ים והלכנו לשביל העליון של פארק לוקי. הגענו לספסל בנוי מאבנים, ממש באמצע חורשה ללא זכר לציוויליזציה ואכלנו. עד מהרה נעקצנו על ידי יתושים, אבל אני זוכרת את החוויה כרומנטית ושלווה מאוד.
-            גרתי במעונות הסנאט הסמוכים, בניין 159, במרחק של דקה וחצי בדיוק מהפינה הזו. גם המעונות היו מיוחדים עבורי כי ההורים שלי גרו באותו בניין כשאבי היה סטודנט בטכניון, ואמי הייתה בהריון איתי. 23 שנים לאחר מכן עברתי לגור באותו בניין, שתי קומות מעל, סוגרת מעגל.
-        </p>
+  <main>
+    <div id="tree-container">
+      <svg id="family-tree"></svg>
     </div>
+    <div id="person-details">
+      <p>Select a person to read about them.</p>
+    </div>
+  </main>
 
-    <!-- Text Box -->
-    <div class="story-container">
-        <p class="story-text" dir="rtl">
-            لقد اكتشفت هذه الزاوية خلال السنة الأولى من دراستي الجامعية. في ذلك الوقت التقيت شريكي. في أحد أيام السبت أردنا تناول الغداء في الخارج، لذلك قمنا بإعداد السندويشات وذهبنا إلى المسار العلوي لمنتزه لوكي. وصلنا إلى مقعد مبني من الحجارة، في وسط بستان لا يوجد فيه أي أثر للحضارة، وتناولنا الطعام. وسرعان ما عضنا البعوض، لكني أتذكر التجربة التي كانت رومانسية وهادئة للغاية.
-كنت أعيش في مسكن قريب لمجلس الشيوخ، المبنى رقم 159، على بعد دقيقة ونصف بالضبط من هذه الزاوية. كان السكن أيضًا مميزًا بالنسبة لي، لأن والدي كانا يعيشان في نفس المبنى عندما كان والدي طالبًا في التخنيون، وكانت والدتي حاملًا بي. وبعد 23 عامًا، انتقلت إلى نفس المبنى، بطابقين فوقه، وأغلقت دائرة.
-        </p>
-    </div>
-    
-    <!-- Image -->
-    <img src="1.jpeg" alt="Story Image" class="story-image">
+  <footer>
+    <small>Drag to move, scroll to zoom, double-click to reset.</small>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
