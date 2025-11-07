@@ -49,3 +49,8 @@ svg {
   stroke: #2196F3 !important; /* Use a strong blue color */
   stroke-width: 4px !important; /* Thicker border */
 }
+
+.marriage-link {
+  stroke: #2196F3; /* Bright blue for the marriage line */
+  stroke-width: 3px;
+}
